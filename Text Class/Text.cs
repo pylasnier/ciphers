@@ -4,18 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Ciphers;
-
 namespace Encryption
 {
+    public class TText<T>
+    {
+        public TText(T newCipher)
+        {
+
+        }
+    }
+
     public class Text<T> where T : Cipher
     {
         private string plainText;
-        private string cipherText;
-
-        bool encrypted;
+        private char[] cipherText;
 
         private T cipher;
+
+        bool encrypted;
 
         public string PlainText
         {
@@ -25,25 +31,40 @@ namespace Encryption
             }
         }
 
-        public Text()
+        public Text(T newCipher)
         {
             plainText = null;
             cipherText = null;
 
+            cipher = newCipher;
+
             encrypted = false;
         }
 
-        public Text(string plainTextInput)
+        public Text(T newCipher, string plainTextInput)
         {
             plainText = plainTextInput;
             cipherText = null;
 
+            cipher = newCipher;
+
             encrypted = false;
         }
 
-        public void Encrypt()
+        public void Encrypt(object key)
         {
-            cipherText = T.Encrypt(plainText)
+            encrypted = true;
+            cipherText = cipher.Encrypt(plainText, key);
+        }
+
+        public void SetPlainText(string newPlainText)
+        {
+            plainText = newPlainText;
+        }
+
+        public char[] GetCipherText()
+        {
+            return cipherText;
         }
     }
 }

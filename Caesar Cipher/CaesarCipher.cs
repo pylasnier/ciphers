@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Encryption;
+
 namespace Ciphers
 {
-    public class CCipher : Cipher
+    public class CCipher : Cipher, ICipher<int>
     {
         public char[] Encrypt(string plainText, int key)
         {

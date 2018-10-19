@@ -1,0 +1,10 @@
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Test.exe.config
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Test.exe
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Test.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Caesar Cipher.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Text Class.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Caesar Cipher.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\Text Class.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\obj\Debug\Test.exe
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\obj\Debug\Test.pdb
