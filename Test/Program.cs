@@ -14,7 +14,7 @@ namespace Test
         static void Main(string[] args)
         {
             CCipher myCipher = new CCipher();
-            Text<CCipher> myText = new Text<CCipher>(myCipher);
+            Text<CCipher, myCipher.KeyType> myText;
 
             myText.SetPlainText("Hello world!");
 

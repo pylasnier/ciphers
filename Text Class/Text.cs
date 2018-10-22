@@ -14,7 +14,7 @@ namespace Encryption
         }
     }
 
-    public class Text<T> where T : Cipher
+    public class Text<T, U> where T : ICipher<U>
     {
         private string plainText;
         private char[] cipherText;
@@ -51,7 +51,7 @@ namespace Encryption
             encrypted = false;
         }
 
-        public void Encrypt(object key)
+        public void Encrypt(U key)
         {
             encrypted = true;
             cipherText = cipher.Encrypt(plainText, key);

@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace Encryption
 {
-    public class Cipher : ICipher<object>
-    {
-        public char[] Encrypt(string plainText, object key)
-        {
-            return null;
-        }
-    }
+    static public partial class Cipher { }
 
     public interface ICipher<T>
     {
+        Type KeyType { get; }
+
         char[] Encrypt(string plainText, T key);
     }
 

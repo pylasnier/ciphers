@@ -8,22 +8,33 @@ using Encryption;
 
 namespace Ciphers
 {
-    public class CCipher : Cipher, ICipher<int>
-    {
-        public char[] Encrypt(string plainText, int key)
+    //static public partial class Cipher
+    //{
+        public class CCipher : ICipher<int>
         {
-            char[] cipherText;
-            int i;
-
-            key = Math.Abs(key) % char.MaxValue;
-            cipherText = new char[plainText.Length];
-
-            for (i = 0; i < plainText.Length; i++)
+            public Type KeyType
             {
-                cipherText[i] = (char) (plainText[i] + key);
+                get
+                {
+                    return typeof(int);
+                }
             }
 
-            return cipherText;
+            public char[] Encrypt(string plainText, int key)
+            {
+                char[] cipherText;
+                int i;
+
+                key = Math.Abs(key) % char.MaxValue;
+                cipherText = new char[plainText.Length];
+
+                for (i = 0; i < plainText.Length; i++)
+                {
+                    cipherText[i] = (char)(plainText[i] + key);
+                }
+
+                return cipherText;
+            }
         }
-    }
+    //}
 }
