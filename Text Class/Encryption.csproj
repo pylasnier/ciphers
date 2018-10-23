@@ -7,8 +7,8 @@
     <ProjectGuid>{4DC9F178-E763-4BD7-A77B-D733D0A294D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Text_Class</RootNamespace>
-    <AssemblyName>Text Class</AssemblyName>
+    <RootNamespace>Encryption</RootNamespace>
+    <AssemblyName>encryption</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

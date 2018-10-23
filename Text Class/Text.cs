@@ -6,28 +6,21 @@ using System.Threading.Tasks;
 
 namespace Encryption
 {
-    public class TText<T>
-    {
-        public TText(T newCipher)
-        {
-
-        }
-    }
-
     public class Text<T, U> where T : ICipher<U>
     {
-        private string plainText;
+        private char[] plainText;
         private char[] cipherText;
 
         private T cipher;
 
         bool encrypted;
+        bool decrypted;
 
         public string PlainText
         {
             get
             {
-                return plainText;
+                return plainText.ToString();
             }
         }
 
@@ -35,19 +28,25 @@ namespace Encryption
         {
             plainText = null;
             cipherText = null;
-
+            
             cipher = newCipher;
 
+            decrypted = false;
             encrypted = false;
         }
 
         public Text(T newCipher, string plainTextInput)
         {
-            plainText = plainTextInput;
+            plainText = plainTextInput.ToArray();
             cipherText = null;
 
+            if (newCipher.KeyType != typeof(U))
+            {
+                throw new ArgumentException();
+            }
             cipher = newCipher;
 
+            decrypted = true;
             encrypted = false;
         }
 
@@ -59,7 +58,7 @@ namespace Encryption
 
         public void SetPlainText(string newPlainText)
         {
-            plainText = newPlainText;
+            plainText = newPlainText.ToArray();
         }
 
         public char[] GetCipherText()

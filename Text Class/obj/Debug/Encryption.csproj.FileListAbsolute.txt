@@ -1,5 +1,5 @@
-\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\bin\Debug\Text Class.dll
-\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\bin\Debug\Text Class.pdb
 \\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\Encryption.csprojResolveAssemblyReference.cache
-\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\Text Class.dll
-\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\Text Class.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\bin\Debug\Encryption.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\bin\Debug\Encryption.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\Encryption.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\Encryption.pdb

@@ -6,35 +6,47 @@ using System.Threading.Tasks;
 
 using Encryption;
 
-namespace Ciphers
+namespace Encryption
 {
-    //static public partial class Cipher
-    //{
-        public class CCipher : ICipher<int>
+    public class CCipher : ICipher<int>
+    {
+        public Type KeyType
         {
-            public Type KeyType
+            get
             {
-                get
-                {
-                    return typeof(int);
-                }
-            }
-
-            public char[] Encrypt(string plainText, int key)
-            {
-                char[] cipherText;
-                int i;
-
-                key = Math.Abs(key) % char.MaxValue;
-                cipherText = new char[plainText.Length];
-
-                for (i = 0; i < plainText.Length; i++)
-                {
-                    cipherText[i] = (char)(plainText[i] + key);
-                }
-
-                return cipherText;
+                return typeof(int);
             }
         }
-    //}
+
+        public char[] Encrypt(char[] plainText, int key)
+        {
+            char[] cipherText;
+            int i;
+
+            key = Math.Abs(key) % char.MaxValue;
+            cipherText = new char[plainText.Length];
+
+            for (i = 0; i < plainText.Length; i++)
+            {
+                cipherText[i] = (char)(plainText[i] + key);
+            }
+
+            return cipherText;
+        }
+
+        public char[] Encrypt(string plainText, int key)
+        {
+            return Encrypt(plainText.ToArray(), key);
+        }
+
+        public char[] Decrypt(char[] cipherText, int key)
+        {
+            return Encrypt(cipherText, char.MaxValue - key);
+        }
+
+        public char[] Decrypt(string cipherText, int key)
+        {
+            return Encrypt(cipherText, char.MaxValue - key);
+        }
+    }
 }

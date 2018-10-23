@@ -12,18 +12,9 @@ namespace Encryption
     {
         Type KeyType { get; }
 
+        char[] Encrypt(char[] plainText, T key);
         char[] Encrypt(string plainText, T key);
+        char[] Decrypt(string cipherText, T key);
+        char[] Decrypt(char[] cipherText, T key);
     }
-
-    /**
-    public class Cipher : ICipher<Cipher.Key>
-    {
-        public char[] Encrypt(string plainText, Key key)
-        {
-            return null;
-        }
-
-        public class Key { }
-    }
-    **/
 }

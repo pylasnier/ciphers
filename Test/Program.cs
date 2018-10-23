@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Encryption;
-using Ciphers;
 
 namespace Test
 {
@@ -14,13 +13,13 @@ namespace Test
         static void Main(string[] args)
         {
             CCipher myCipher = new CCipher();
-            Text<CCipher, myCipher.KeyType> myText;
+            var myText = new Text<CCipher, int>(myCipher);
 
             myText.SetPlainText("Hello world!");
 
             myText.Encrypt(4);
 
-            myText.GetCipherText();
+            Console.WriteLine(myText.GetCipherText());
         }
     }
 }
