@@ -12,14 +12,17 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            CCipher myCipher = new CCipher();
-            var myText = new Text<CCipher, int>(myCipher);
+            var myEncryptor = new Encryptor<CCipher, int>(new CCipher());
+            var myDecryptor = new Decryptor<CCipher, int>(new CCipher());
 
-            myText.SetPlainText("Hello world!");
+            myEncryptor.PlainText = "Hello World!";
+            myEncryptor.Encrypt(15);
+            Console.WriteLine(myEncryptor.CipherText);
+            myEncryptor.SaveCipherText("N:\\My Documents\\test.ciph");
 
-            myText.Encrypt(4);
-
-            Console.WriteLine(myText.GetCipherText());
+            myDecryptor.GetCipherText("N:\\My Documents\\test.ciph");
+            myDecryptor.Decrypt(15);
+            Console.WriteLine(myDecryptor.PlainText);
         }
     }
 }
