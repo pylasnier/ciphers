@@ -53,7 +53,7 @@
       <Project>{a23b82c9-278d-4fec-9f6e-d2772856e1a3}</Project>
       <Name>Caesar Cipher</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Text Class\Encryption.csproj">
+    <ProjectReference Include="..\Encryption\Encryption.csproj">
       <Project>{4dc9f178-e763-4bd7-a77b-d733d0a294d4}</Project>
       <Name>Encryption</Name>
     </ProjectReference>

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caesar Cipher", "Caesar Cipher\Caesar Cipher.csproj", "{A23B82C9-278D-4FEC-9F6E-D2772856E1A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Text Class\Encryption.csproj", "{4DC9F178-E763-4BD7-A77B-D733D0A294D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\Encryption.csproj", "{4DC9F178-E763-4BD7-A77B-D733D0A294D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{CF2F6452-9BF3-4D0F-BD1F-CCC614D6F8DE}"
 EndProject

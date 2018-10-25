@@ -1,0 +1,10 @@
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\Encryption.csprojResolveAssemblyReference.cache
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\bin\Debug\encryption.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\bin\Debug\encryption.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\encryption.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Text Class\obj\Debug\encryption.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\bin\Debug\encryption.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\bin\Debug\encryption.pdb
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\obj\Debug\Encryption.csprojResolveAssemblyReference.cache
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\obj\Debug\encryption.dll
+\\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\obj\Debug\encryption.pdb

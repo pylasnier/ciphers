@@ -8,12 +8,10 @@ using System.IO;
 
 namespace Encryption
 {
-    public enum CipherType
+    public class MonsieurInference<T> where T :ICipher<IComparable>
     {
-        Uninstantiated = 0,
-        Encryptor = 1,
-        Decryptor = 2
-    };
+
+    }
 
     public class Text<T, U> where T : ICipher<U>
     {
@@ -22,19 +20,22 @@ namespace Encryption
 
         private T cipher;
 
-        public Text(T newCipher)
+        private U key;
+
+        public Text(T newCipher, U newKey)
         {
             plainText = null;
             cipherText = null;
 
             cipher = newCipher;
+            key = newKey;
         }
 
         public string PlainText
         {
             get
             {
-                return plainText.ToString();
+                return new string(plainText);
             }
             set
             {
@@ -54,12 +55,24 @@ namespace Encryption
             }
         }
 
-        public void Encrypt(U key)
+        public U Key
+        {
+            get
+            {
+                return key;
+            }
+            set
+            {
+                key = value;
+            }
+        }
+
+        public void Encrypt()
         {
             cipherText = cipher.Encrypt(plainText, key);
         }
 
-        public void Decrypt(U key)
+        public void Decrypt()
         {
             plainText = cipher.Decrypt(cipherText, key);
         }
@@ -84,15 +97,15 @@ namespace Encryption
         }
     }
 
-    public class Encryptor<T, U> where T : ICipher<U>
+    public class Encryptor<T, U> :IDisposable where T : ICipher<U>
     {
         private Text<T, U> textObject;
         
         private bool encrypted;
 
-        public Encryptor(T newCipher)
+        public Encryptor(T newCipher, U newKey)
         {
-            textObject = new Text<T, U>(newCipher);
+            textObject = new Text<T, U>(newCipher, newKey);
             encrypted = false;
         }
 
@@ -117,11 +130,23 @@ namespace Encryption
             }
         }
 
-        public void Encrypt(U key)
+        public U Key
+        {
+            get
+            {
+                return textObject.Key;
+            }
+            set
+            {
+                textObject.Key = value;
+            }
+        }
+
+        public void Encrypt()
         {
             if (null != textObject.PlainText)
             {
-                textObject.Encrypt(key);
+                textObject.Encrypt();
 
                 encrypted = true;
             }
@@ -149,17 +174,22 @@ namespace Encryption
                 throw new InvalidOperationException("File already exists at given path");
             }
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 
-    public class Decryptor<T, U> where T : ICipher<U>
+    public class Decryptor<T, U> :IDisposable where T : ICipher<U>
     {
         private Text<T, U> textObject;
 
         private bool decrypted;
 
-        public Decryptor(T newCipher)
+        public Decryptor(T newCipher, U newKey)
         {
-            textObject = new Text<T, U>(newCipher);
+            textObject = new Text<T, U>(newCipher, newKey);
             decrypted = false;
         }
 
@@ -186,11 +216,23 @@ namespace Encryption
             }
         }
 
-        public void Decrypt(U key)
+        public U Key
+        {
+            get
+            {
+                return textObject.Key;
+            }
+            set
+            {
+                textObject.Key = value;
+            }
+        }
+
+        public void Decrypt()
         {
             if (null != textObject.CipherText)
             {
-                textObject.Decrypt(key);
+                textObject.Decrypt();
                 decrypted = true;
             }
             else
@@ -210,13 +252,34 @@ namespace Encryption
                 throw new FileNotFoundException("File doesn't exist");
             }
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 
     public static class Text
     {
-        public static Text<T, U> New<T, U>(T newCipher, U ignoreThis = default(U)) where T : ICipher<U>
+        public static Text<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>
         {
-            return new Text<T, U>(newCipher);
+            return new Text<T, U>(newCipher, newKey);
+        }
+    }
+
+    public static class Encryptor
+    {
+        public static Encryptor<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>
+        {
+            return new Encryptor<T, U>(newCipher, newKey);
+        }
+    }
+
+    public static class Decryptor
+    {
+        public static Decryptor<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>
+        {
+            return new Decryptor<T, U>(newCipher, newKey);
         }
     }
 }

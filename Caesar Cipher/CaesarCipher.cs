@@ -8,45 +8,41 @@ using Encryption;
 
 namespace Encryption
 {
-    public class CCipher : ICipher<int>
+    namespace Ciphers
     {
-        public Type KeyType
+        public class CCipher : ICipher<int>
         {
-            get
+
+            public char[] Encrypt(char[] plainText, int key)
             {
-                return typeof(int);
-            }
-        }
+                char[] cipherText;
+                int i;
 
-        public char[] Encrypt(char[] plainText, int key)
-        {
-            char[] cipherText;
-            int i;
+                key = key % char.MaxValue;
+                cipherText = new char[plainText.Length];
 
-            key = Math.Abs(key) % char.MaxValue;
-            cipherText = new char[plainText.Length];
+                for (i = 0; i < plainText.Length; i++)
+                {
+                    cipherText[i] = (char)(plainText[i] + key);
+                }
 
-            for (i = 0; i < plainText.Length; i++)
-            {
-                cipherText[i] = (char)(plainText[i] + key);
+                return cipherText;
             }
 
-            return cipherText;
-        }
+            public char[] Encrypt(string plainText, int key)
+            {
+                return Encrypt(plainText.ToArray(), key);
+            }
 
-        public char[] Encrypt(string plainText, int key)
-        {
-            return Encrypt(plainText.ToArray(), key);
-        }
+            public char[] Decrypt(char[] cipherText, int key)
+            {
+                return Encrypt(cipherText, -key);
+            }
 
-        public char[] Decrypt(char[] cipherText, int key)
-        {
-            return Encrypt(cipherText, char.MaxValue - key);
-        }
-
-        public char[] Decrypt(string cipherText, int key)
-        {
-            return Encrypt(cipherText, char.MaxValue - key);
+            public char[] Decrypt(string cipherText, int key)
+            {
+                return Encrypt(cipherText, -key);
+            }
         }
     }
 }

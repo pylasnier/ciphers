@@ -48,7 +48,7 @@
       <Project>{a1222805-b726-46bc-8554-cb19a9a0141d}</Project>
       <Name>Cipher</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Text Class\Encryption.csproj">
+    <ProjectReference Include="..\Encryption\Encryption.csproj">
       <Project>{4dc9f178-e763-4bd7-a77b-d733d0a294d4}</Project>
       <Name>Encryption</Name>
     </ProjectReference>

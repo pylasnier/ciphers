@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Encryption;
+using Encryption.Ciphers;
 
 namespace Test
 {
@@ -12,17 +13,42 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var myEncryptor = new Encryptor<CCipher, int>(new CCipher());
-            var myDecryptor = new Decryptor<CCipher, int>(new CCipher());
+            string plainText;
+            int key;
 
-            myEncryptor.PlainText = "Hello World!";
-            myEncryptor.Encrypt(15);
-            Console.WriteLine(myEncryptor.CipherText);
-            myEncryptor.SaveCipherText("N:\\My Documents\\test.ciph");
+            bool valid;
 
-            myDecryptor.GetCipherText("N:\\My Documents\\test.ciph");
-            myDecryptor.Decrypt(15);
-            Console.WriteLine(myDecryptor.PlainText);
+            Console.Write("Enter some text to be encrypted: ");
+            plainText = Console.ReadLine();
+
+            valid = false;
+            key = 0;
+
+            while (false == valid)
+            {
+                Console.Write("\nEnter an integer key: ");
+                valid = int.TryParse(Console.ReadLine(), out key);
+            }
+
+            using (var myEncryptor = Encryptor.New(new CCipher(), key))
+            {
+                myEncryptor.PlainText = plainText;
+                myEncryptor.Encrypt();
+
+                Console.WriteLine($"This is what your message looks like when encrypted:\n{new string(myEncryptor.CipherText)}");
+
+                myEncryptor.SaveCipherText("N:\\My Documents\\mytest.cph");
+            }
+
+            Console.WriteLine("Attempting to decrypt...");
+
+            using (var myDecryptor = Decryptor.New(new CCipher(), key))
+            {
+                myDecryptor.GetCipherText("N:\\My Documents\\mytest.cph");
+                myDecryptor.Decrypt();
+
+                Console.WriteLine($"Decrypted message:\n{myDecryptor.PlainText}");
+            }
         }
     }
 }
