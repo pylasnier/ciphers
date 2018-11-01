@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Encryption;
 using Encryption.Ciphers;
 
+using System.IO;
+
 namespace Test
 {
     class Program
@@ -14,7 +16,8 @@ namespace Test
         static void Main(string[] args)
         {
             string plainText;
-            int key;
+            TKey key = new TKey();
+            int input;
 
             bool valid;
 
@@ -22,33 +25,44 @@ namespace Test
             plainText = Console.ReadLine();
 
             valid = false;
-            key = 0;
 
             while (false == valid)
             {
-                Console.Write("\nEnter an integer key: ");
-                valid = int.TryParse(Console.ReadLine(), out key);
+                Console.Write("\nEnter an integer width: ");
+                valid = int.TryParse(Console.ReadLine(), out input);
+                key.Width = input;
             }
 
-            using (var myEncryptor = Encryptor.New(new CCipher(), key))
+            valid = false;
+
+            while (false == valid)
+            {
+                Console.Write("\nEnter an integer height: ");
+                valid = int.TryParse(Console.ReadLine(), out input);
+                key.Height = input;
+            }
+
+            using (var myEncryptor = Encryptor.New(new TCipher(), key))
             {
                 myEncryptor.PlainText = plainText;
                 myEncryptor.Encrypt();
 
                 Console.WriteLine($"This is what your message looks like when encrypted:\n{new string(myEncryptor.CipherText)}");
 
-                myEncryptor.SaveCipherText("N:\\My Documents\\mytest.cph");
+                myEncryptor.SaveCipherText("D:\\Users\\Pascal\\Documents\\mytest.cph");
             }
 
             Console.WriteLine("Attempting to decrypt...");
 
-            using (var myDecryptor = Decryptor.New(new CCipher(), key))
+            using (var myDecryptor = Decryptor.New(new TCipher(), key))
             {
-                myDecryptor.GetCipherText("N:\\My Documents\\mytest.cph");
+                myDecryptor.GetCipherText("D:\\Users\\Pascal\\Documents\\mytest.cph");
                 myDecryptor.Decrypt();
 
                 Console.WriteLine($"Decrypted message:\n{myDecryptor.PlainText}");
             }
+
+            File.Delete("D:\\Users\\Pascal\\Documents\\mytest.cph");
         }
     }
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\En
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{CF2F6452-9BF3-4D0F-BD1F-CCC614D6F8DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transposition Cipher", "Transposition Cipher\Transposition Cipher.csproj", "{41612833-39B4-45DC-8ADF-56842EE214B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{CF2F6452-9BF3-4D0F-BD1F-CCC614D6F8DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF2F6452-9BF3-4D0F-BD1F-CCC614D6F8DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF2F6452-9BF3-4D0F-BD1F-CCC614D6F8DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41612833-39B4-45DC-8ADF-56842EE214B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41612833-39B4-45DC-8ADF-56842EE214B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41612833-39B4-45DC-8ADF-56842EE214B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41612833-39B4-45DC-8ADF-56842EE214B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FB547AD-4D3C-42C4-99CB-E0F4EA794958}
 	EndGlobalSection
 EndGlobal

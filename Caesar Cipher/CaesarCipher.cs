@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Encryption;
+﻿using System.Linq;
 
 namespace Encryption
 {
     namespace Ciphers
     {
+        //Caesar Cipher
+        //Shifts character's numeric value by a given number of places
         public class CCipher : ICipher<int>
         {
-
             public char[] Encrypt(char[] plainText, int key)
             {
                 char[] cipherText;
@@ -23,6 +18,7 @@ namespace Encryption
 
                 for (i = 0; i < plainText.Length; i++)
                 {
+                    //Character shift operation
                     cipherText[i] = (char)(plainText[i] + key);
                 }
 

@@ -8,28 +8,11 @@ using System.IO;
 
 namespace Encryption
 {
-    public class MonsieurInference<T> where T :ICipher<IComparable>
-    {
-
-    }
-
+    //Contains plain text data, cipher text data, and ecryption methods provided by generic cipher
     public class Text<T, U> where T : ICipher<U>
     {
         private char[] plainText;
-        private char[] cipherText;
-
         private T cipher;
-
-        private U key;
-
-        public Text(T newCipher, U newKey)
-        {
-            plainText = null;
-            cipherText = null;
-
-            cipher = newCipher;
-            key = newKey;
-        }
 
         public string PlainText
         {
@@ -43,45 +26,34 @@ namespace Encryption
             }
         }
 
-        public char[] CipherText
-        {
-            get
-            {
-                return cipherText;
-            }
-            set
-            {
-                cipherText = value;
-            }
-        }
+        public char[] CipherText { get; set; }
 
-        public U Key
+        public U Key { get; set; }
+
+        public Text(T newCipher, U newKey)
         {
-            get
-            {
-                return key;
-            }
-            set
-            {
-                key = value;
-            }
+            plainText = null;
+            CipherText = null;
+
+            cipher = newCipher;
+            Key = newKey;
         }
 
         public void Encrypt()
         {
-            cipherText = cipher.Encrypt(plainText, key);
+            CipherText = cipher.Encrypt(plainText, Key);
         }
 
         public void Decrypt()
         {
-            plainText = cipher.Decrypt(cipherText, key);
+            plainText = cipher.Decrypt(CipherText, Key);
         }
 
         public void GetCipherText(string path)
         {
             using (StreamReader reader = File.OpenText(path))
             {
-                cipherText = reader.ReadToEnd().ToArray();
+                CipherText = reader.ReadToEnd().ToArray();
             }
         }
 
@@ -91,23 +63,19 @@ namespace Encryption
             {
                 using (StreamWriter writer = File.CreateText(path))
                 {
-                    writer.Write(cipherText);
+                    writer.Write(CipherText);
                 }
             }
         }
     }
 
+    //Text class wrapper for just encryption
     public class Encryptor<T, U> :IDisposable where T : ICipher<U>
     {
         private Text<T, U> textObject;
         
         private bool encrypted;
-
-        public Encryptor(T newCipher, U newKey)
-        {
-            textObject = new Text<T, U>(newCipher, newKey);
-            encrypted = false;
-        }
+        private bool saved;
 
         public string PlainText
         {
@@ -142,6 +110,13 @@ namespace Encryption
             }
         }
 
+        public Encryptor(T newCipher, U newKey)
+        {
+            textObject = new Text<T, U>(newCipher, newKey);
+            encrypted = false;
+            saved = false;
+        }
+
         public void Encrypt()
         {
             if (null != textObject.PlainText)
@@ -163,6 +138,7 @@ namespace Encryption
                 if (true == encrypted)
                 {
                     textObject.SaveCipherText(path);
+                    saved = true;
                 }
                 else
                 {
@@ -177,21 +153,19 @@ namespace Encryption
 
         public void Dispose()
         {
-
+            if (false == saved && true == encrypted)
+            {
+                throw new InvalidOperationException("Encryptor disposed before cipher text was saved");
+            }
         }
     }
 
+    //Text class wrapper for just decryption
     public class Decryptor<T, U> :IDisposable where T : ICipher<U>
     {
         private Text<T, U> textObject;
 
         private bool decrypted;
-
-        public Decryptor(T newCipher, U newKey)
-        {
-            textObject = new Text<T, U>(newCipher, newKey);
-            decrypted = false;
-        }
 
         public string PlainText
         {
@@ -228,6 +202,12 @@ namespace Encryption
             }
         }
 
+        public Decryptor(T newCipher, U newKey)
+        {
+            textObject = new Text<T, U>(newCipher, newKey);
+            decrypted = false;
+        }
+
         public void Decrypt()
         {
             if (null != textObject.CipherText)
@@ -253,12 +233,10 @@ namespace Encryption
             }
         }
 
-        public void Dispose()
-        {
-
-        }
+        public void Dispose() { }
     }
 
+    //Constructors for Text class and wrapper classes
     public static class Text
     {
         public static Text<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>

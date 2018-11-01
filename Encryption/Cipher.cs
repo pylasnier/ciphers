@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Encryption
+﻿namespace Encryption
 {
-    static public partial class Cipher { }
-
+    //Interface used to write cipher classes
     public interface ICipher<T>
     {
         char[] Encrypt(char[] plainText, T key);

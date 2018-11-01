@@ -8,3 +8,9 @@
 \\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\obj\Debug\Encryption.csprojResolveAssemblyReference.cache
 \\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\obj\Debug\encryption.dll
 \\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Encryption\obj\Debug\encryption.pdb
+C:\Users\py\source\repos\Encryption Ciphers\Encryption\bin\Debug\encryption.dll
+C:\Users\py\source\repos\Encryption Ciphers\Encryption\bin\Debug\encryption.pdb
+C:\Users\py\source\repos\Encryption Ciphers\Encryption\obj\Debug\Encryption.csprojAssemblyReference.cache
+C:\Users\py\source\repos\Encryption Ciphers\Encryption\obj\Debug\Encryption.csproj.CoreCompileInputs.cache
+C:\Users\py\source\repos\Encryption Ciphers\Encryption\obj\Debug\encryption.dll
+C:\Users\py\source\repos\Encryption Ciphers\Encryption\obj\Debug\encryption.pdb

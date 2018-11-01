@@ -57,6 +57,10 @@
       <Project>{4dc9f178-e763-4bd7-a77b-d733d0a294d4}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Transposition Cipher\Transposition Cipher.csproj">
+      <Project>{41612833-39b4-45dc-8adf-56842ee214b8}</Project>
+      <Name>Transposition Cipher</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
