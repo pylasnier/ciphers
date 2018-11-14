@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Encryption
+namespace Encryption.Ciphers
 {
     //Wrapper for 3-dimensional char array, to access elements by row using an index
     class GridByRows : IDisposable
@@ -87,7 +88,7 @@ namespace Encryption
         public void Dispose() { }
     }
 
-    public class TKey
+    public class GridShape
     {
         public int Width { get; set; }
         public int Height { get; set; }
@@ -98,91 +99,111 @@ namespace Encryption
                 return Width * Height;
             }
         }
+
+        public GridShape(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
     }
 
-    namespace Ciphers
+    public class TCipher : ICipher
     {
-        public class TCipher : ICipher<TKey>
+        public List<SubKey> KeyStructure
         {
-            public char[] Encrypt(char[] plainText, TKey key)
+            get
             {
-                char[,,] grid;
-                char[] cipherText;
-                int i;
+                List<SubKey> returnValue = new List<SubKey>();
+                returnValue.Add(new SubKey(typeof(int), "width"));
+                returnValue.Add(new SubKey(typeof(int), "height"));
+                return returnValue;
+            }
+        }
 
-                grid = new char[(plainText.Length - 1) / key.Area + 1, key.Width, key.Height];
+        public char[] Encrypt(char[] plainText, List<dynamic> key)
+        {
+            char[,,] grid;
+            char[] cipherText;
+            int i;
+            GridShape gridShape;
 
-                //Filling up the grid by rows, first with the plain text then underscores as fillers
-                using (var myGrid = new GridByRows(grid))
+            gridShape = new GridShape(key[0], key[1]);
+
+            grid = new char[(plainText.Length - 1) / gridShape.Area + 1, gridShape.Width, gridShape.Height];
+
+            //Filling up the grid by rows, first with the plain text then underscores as fillers
+            using (var myGrid = new GridByRows(grid))
+            {
+                for (i = 0; i < plainText.Length; i++)
                 {
-                    for (i = 0; i < plainText.Length; i++)
-                    {
-                        myGrid[i] = plainText[i];
-                    }
-                    for (; i < myGrid.Size; i++)
-                    {
-                        myGrid[i] = '_';
-                    }
+                    myGrid[i] = plainText[i];
                 }
-
-                //Reading from grid column by column to fill cipherText
-                using (var myGrid = new GridByColumns(grid))
+                for (; i < myGrid.Size; i++)
                 {
-                    cipherText = new char[myGrid.Size];
-                    for (i = 0; i < myGrid.Size; i++)
-                    {
-                        cipherText[i] = myGrid[i];
-                    }
+                    myGrid[i] = '_';
                 }
-
-                return cipherText;
             }
 
-            public char[] Encrypt(string plainText, TKey key)
+            //Reading from grid column by column to fill cipherText
+            using (var myGrid = new GridByColumns(grid))
             {
-                return Encrypt(plainText.ToArray(), key);
+                cipherText = new char[myGrid.Size];
+                for (i = 0; i < myGrid.Size; i++)
+                {
+                    cipherText[i] = myGrid[i];
+                }
             }
 
-            public char[] Decrypt(char[] cipherText, TKey key)
+            return cipherText;
+        }
+
+        public char[] Encrypt(string plainText, List<dynamic> key)
+        {
+            return Encrypt(plainText.ToArray(), key);
+        }
+
+        public char[] Decrypt(char[] cipherText, List<dynamic> key)
+        {
+            char[,,] grid;
+            char[] plainText;
+            char character;
+            int i, j;
+            GridShape gridShape;
+
+            gridShape = new GridShape(key[0], key[1]);
+
+            grid = new char[(cipherText.Length - 1) / gridShape.Area + 1, gridShape.Width, gridShape.Height];
+
+            //Filling up the grid by columns from the cipher text
+            using (var myGrid = new GridByColumns(grid))
             {
-                char[,,] grid;
-                char[] plainText;
-                char character;
-                int i, j;
-
-                grid = new char[(cipherText.Length - 1) / key.Area + 1, key.Width, key.Height];
-
-                //Filling up the grid by columns from the cipher text
-                using (var myGrid = new GridByColumns(grid))
+                for (i = 0; i < cipherText.Length; i++)
                 {
-                    for (i = 0; i < cipherText.Length; i++)
+                    myGrid[i] = cipherText[i];
+                }
+            }
+
+            //Reading from grid row by row to fill plainText, ignoring underscore fillers
+            using (var myGrid = new GridByRows(grid))
+            {
+                plainText = new char[myGrid.Size];
+                for (i = 0, j = 0; i < myGrid.Size; i++)
+                {
+                    character = myGrid[i];
+                    if ('_' != character)
                     {
-                        myGrid[i] = cipherText[i];
+                        plainText[j] = character;
+                        j++;
                     }
                 }
-
-                //Reading from grid row by row to fill plainText, ignoring underscore fillers
-                using (var myGrid = new GridByRows(grid))
-                {
-                    plainText = new char[myGrid.Size];
-                    for (i = 0, j = 0; i < myGrid.Size; i++)
-                    {
-                        character = myGrid[i];
-                        if ('_' != character)
-                        {
-                            plainText[i] = character;
-                            j++;
-                        }
-                    }
-                }
-
-                return plainText;
             }
 
-            public char[] Decrypt(string cipherText, TKey key)
-            {
-                return Decrypt(cipherText.ToArray(), key);
-            }
+            return plainText;
+        }
+
+        public char[] Decrypt(string cipherText, List<dynamic> key)
+        {
+            return Decrypt(cipherText.ToArray(), key);
         }
     }
 }

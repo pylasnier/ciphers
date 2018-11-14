@@ -13,56 +13,45 @@ namespace Test
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            string plainText;
-            TKey key = new TKey();
-            int input;
-
             bool valid;
+            int i;
 
-            Console.Write("Enter some text to be encrypted: ");
-            plainText = Console.ReadLine();
+            var key = new List<object>();
 
-            valid = false;
-
-            while (false == valid)
+            using (var MyTextObject = new Encryptor("caesarcipher.dll", "Encryption.Ciphers.CCipher"))
             {
-                Console.Write("\nEnter an integer width: ");
-                valid = int.TryParse(Console.ReadLine(), out input);
-                key.Width = input;
+                MyTextObject.PlainText = "Hello world!";
+
+                for (i = 0; i < MyTextObject.KeyStructure.Count; i++)
+                {
+                    valid = false;
+                    while (false == valid)
+                    {
+                        Console.Write($"{MyTextObject.KeyStructure[i].Name}: ");
+                        try
+                        {
+                            key[i] = Convert.ChangeType(Console.ReadLine(), MyTextObject.KeyStructure[i].KeyType);
+                            valid = true;
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Wrong type of input given");
+                        }
+                    }
+                }
+
+                MyTextObject.Encrypt(key);
+
+                Console.Write("\n\n\n");
+                Console.WriteLine(MyTextObject.CipherText);
+
+                MyTextObject.SaveCipherText("N:\\My Documents\\TestMeDaddy.txt");
             }
 
-            valid = false;
-
-            while (false == valid)
-            {
-                Console.Write("\nEnter an integer height: ");
-                valid = int.TryParse(Console.ReadLine(), out input);
-                key.Height = input;
-            }
-
-            using (var myEncryptor = Encryptor.New(new TCipher(), key))
-            {
-                myEncryptor.PlainText = plainText;
-                myEncryptor.Encrypt();
-
-                Console.WriteLine($"This is what your message looks like when encrypted:\n{new string(myEncryptor.CipherText)}");
-
-                myEncryptor.SaveCipherText("D:\\Users\\Pascal\\Documents\\mytest.cph");
-            }
-
-            Console.WriteLine("Attempting to decrypt...");
-
-            using (var myDecryptor = Decryptor.New(new TCipher(), key))
-            {
-                myDecryptor.GetCipherText("D:\\Users\\Pascal\\Documents\\mytest.cph");
-                myDecryptor.Decrypt();
-
-                Console.WriteLine($"Decrypted message:\n{myDecryptor.PlainText}");
-            }
-
-            File.Delete("D:\\Users\\Pascal\\Documents\\mytest.cph");
+            File.Delete("N:\\My Documents\\TestMeDaddy.txt");
         }
+
     }
 }

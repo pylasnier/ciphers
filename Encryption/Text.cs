@@ -9,10 +9,10 @@ using System.IO;
 namespace Encryption
 {
     //Contains plain text data, cipher text data, and ecryption methods provided by generic cipher
-    public class Text<T, U> where T : ICipher<U>
+    public class Text
     {
         private char[] plainText;
-        private T cipher;
+        private ICipher cipher;
 
         public string PlainText
         {
@@ -28,25 +28,30 @@ namespace Encryption
 
         public char[] CipherText { get; set; }
 
-        public U Key { get; set; }
+        public List<SubKey> KeyStructure
+        {
+            get
+            {
+                return cipher.KeyStructure;
+            }
+        }
 
-        public Text(T newCipher, U newKey)
+        public Text(string assemblyName, string cipherName)
         {
             plainText = null;
             CipherText = null;
 
-            cipher = newCipher;
-            Key = newKey;
+            cipher = (ICipher) Activator.CreateComInstanceFrom(assemblyName, cipherName).Unwrap();
         }
 
-        public void Encrypt()
+        public void Encrypt(List<dynamic> key)
         {
-            CipherText = cipher.Encrypt(plainText, Key);
+            CipherText = cipher.Encrypt(plainText, key);
         }
 
-        public void Decrypt()
+        public void Decrypt(List<dynamic> key)
         {
-            plainText = cipher.Decrypt(CipherText, Key);
+            plainText = cipher.Decrypt(CipherText, key);
         }
 
         public void GetCipherText(string path)
@@ -68,11 +73,11 @@ namespace Encryption
             }
         }
     }
-
+    
     //Text class wrapper for just encryption
-    public class Encryptor<T, U> :IDisposable where T : ICipher<U>
+    public class Encryptor : IDisposable
     {
-        private Text<T, U> textObject;
+        private Text textObject;
         
         private bool encrypted;
         private bool saved;
@@ -98,30 +103,26 @@ namespace Encryption
             }
         }
 
-        public U Key
+        public List<SubKey> KeyStructure
         {
             get
             {
-                return textObject.Key;
-            }
-            set
-            {
-                textObject.Key = value;
+                return textObject.KeyStructure;
             }
         }
 
-        public Encryptor(T newCipher, U newKey)
+        public Encryptor(string assemblyName, string cipherName)
         {
-            textObject = new Text<T, U>(newCipher, newKey);
+            textObject = new Text(assemblyName, cipherName);
             encrypted = false;
             saved = false;
         }
 
-        public void Encrypt()
+        public void Encrypt(List<dynamic> key)
         {
             if (null != textObject.PlainText)
             {
-                textObject.Encrypt();
+                textObject.Encrypt(key);
 
                 encrypted = true;
             }
@@ -161,9 +162,9 @@ namespace Encryption
     }
 
     //Text class wrapper for just decryption
-    public class Decryptor<T, U> :IDisposable where T : ICipher<U>
+    public class Decryptor : IDisposable
     {
-        private Text<T, U> textObject;
+        private Text textObject;
 
         private bool decrypted;
 
@@ -190,29 +191,25 @@ namespace Encryption
             }
         }
 
-        public U Key
+        public List<SubKey> KeyStructure
         {
             get
             {
-                return textObject.Key;
-            }
-            set
-            {
-                textObject.Key = value;
+                return textObject.KeyStructure;
             }
         }
 
-        public Decryptor(T newCipher, U newKey)
+        public Decryptor(string assemblyName, string cipherName)
         {
-            textObject = new Text<T, U>(newCipher, newKey);
+            textObject = new Text(assemblyName, cipherName);
             decrypted = false;
         }
 
-        public void Decrypt()
+        public void Decrypt(List<dynamic> key)
         {
             if (null != textObject.CipherText)
             {
-                textObject.Decrypt();
+                textObject.Decrypt(key);
                 decrypted = true;
             }
             else
@@ -234,30 +231,5 @@ namespace Encryption
         }
 
         public void Dispose() { }
-    }
-
-    //Constructors for Text class and wrapper classes
-    public static class Text
-    {
-        public static Text<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>
-        {
-            return new Text<T, U>(newCipher, newKey);
-        }
-    }
-
-    public static class Encryptor
-    {
-        public static Encryptor<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>
-        {
-            return new Encryptor<T, U>(newCipher, newKey);
-        }
-    }
-
-    public static class Decryptor
-    {
-        public static Decryptor<T, U> New<T, U>(T newCipher, U newKey) where T : ICipher<U>
-        {
-            return new Decryptor<T, U>(newCipher, newKey);
-        }
     }
 }
