@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using System.Dynamic;
+using Encryption;
 
-namespace Encryption.Ciphers
+namespace Encryption
 {
     //Caesar Cipher
     //Shifts character's numeric value by a given number of places
-    public class CCipher : DynamicObject, ICipher
+    public class CCipher : ICipher
     {
         public List<SubKey> KeyStructure
         {

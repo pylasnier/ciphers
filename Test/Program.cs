@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Encryption;
-using Encryption.Ciphers;
+using Encryption.Text;
 
 using System.IO;
 
@@ -32,7 +32,7 @@ namespace Test
                         Console.Write($"{MyTextObject.KeyStructure[i].Name}: ");
                         try
                         {
-                            key[i] = Convert.ChangeType(Console.ReadLine(), MyTextObject.KeyStructure[i].KeyType);
+                            key.Add(Convert.ChangeType(Console.ReadLine(), MyTextObject.KeyStructure[i].KeyType));
                             valid = true;
                         }
                         catch
@@ -51,7 +51,8 @@ namespace Test
             }
 
             File.Delete("N:\\My Documents\\TestMeDaddy.txt");
-        }
 
+            Console.ReadKey();
+        }
     }
 }

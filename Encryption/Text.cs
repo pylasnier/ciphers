@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 
-namespace Encryption
+namespace Encryption.Text
 {
     //Contains plain text data, cipher text data, and ecryption methods provided by generic cipher
     public class Text
@@ -28,6 +28,10 @@ namespace Encryption
 
         public char[] CipherText { get; set; }
 
+        public string PlainTextFilePath { get; set; }
+
+        public string CipherTextFilePath { get; set; }
+
         public List<SubKey> KeyStructure
         {
             get
@@ -38,8 +42,11 @@ namespace Encryption
 
         public Text(string assemblyName, string cipherName)
         {
-            plainText = null;
+            PlainText = null;
             CipherText = null;
+
+            PlainTextFilePath = null;
+            CipherTextFilePath = null;
 
             cipher = (ICipher) Activator.CreateComInstanceFrom(assemblyName, cipherName).Unwrap();
         }
@@ -54,19 +61,38 @@ namespace Encryption
             plainText = cipher.Decrypt(CipherText, key);
         }
 
-        public void GetCipherText(string path)
+        public void ReadCipherText()
         {
-            using (StreamReader reader = File.OpenText(path))
+            using (StreamReader reader = File.OpenText(CipherTextFilePath))
             {
                 CipherText = reader.ReadToEnd().ToArray();
             }
         }
 
-        public void SaveCipherText(string path)
+        public void WriteCipherText()
         {
-            if (false == File.Exists(path))
+            if (false == File.Exists(CipherTextFilePath))
             {
-                using (StreamWriter writer = File.CreateText(path))
+                using (StreamWriter writer = File.CreateText(CipherTextFilePath))
+                {
+                    writer.Write(CipherText);
+                }
+            }
+        }
+
+        public void ReadPlainText()
+        {
+            using (StreamReader reader = File.OpenText(PlainTextFilePath))
+            {
+                CipherText = reader.ReadToEnd().ToArray();
+            }
+        }
+
+        public void WritePlainText()
+        {
+            if (false == File.Exists(CipherTextFilePath))
+            {
+                using (StreamWriter writer = File.CreateText(PlainTextFilePath))
                 {
                     writer.Write(CipherText);
                 }
@@ -100,6 +126,30 @@ namespace Encryption
             get
             {
                 return textObject.CipherText;
+            }
+        }
+
+        public string PlainTextFilePath
+        {
+            get
+            {
+                return textObject.PlainTextFilePath;
+            }
+            set
+            {
+                textObject.PlainTextFilePath = value;
+            }
+        }
+
+        public string CipherTextFilePath
+        {
+            get
+            {
+                return textObject.CipherTextFilePath;
+            }
+            set
+            {
+                textObject.CipherTextFilePath = value;
             }
         }
 
