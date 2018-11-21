@@ -4,7 +4,7 @@ using System.Linq;
 
 using Encryption;
 
-namespace Encryption
+namespace Ciphers
 {
     //Caesar Cipher
     //Shifts character's numeric value by a given number of places

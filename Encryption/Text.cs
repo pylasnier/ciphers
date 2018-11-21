@@ -9,22 +9,11 @@ using System.IO;
 namespace Encryption.Text
 {
     //Contains plain text data, cipher text data, and ecryption methods provided by generic cipher
-    public class Text
+    public class Text : IDisposable
     {
-        private char[] plainText;
         private ICipher cipher;
 
-        public string PlainText
-        {
-            get
-            {
-                return new string(plainText);
-            }
-            set
-            {
-                plainText = value.ToArray();
-            }
-        }
+        public char[] PlainText { get; set; }
 
         public char[] CipherText { get; set; }
 
@@ -40,7 +29,7 @@ namespace Encryption.Text
             }
         }
 
-        public Text(string assemblyName, string cipherName)
+        public Text(ICipher newCipher)
         {
             PlainText = null;
             CipherText = null;
@@ -48,17 +37,17 @@ namespace Encryption.Text
             PlainTextFilePath = null;
             CipherTextFilePath = null;
 
-            cipher = (ICipher) Activator.CreateComInstanceFrom(assemblyName, cipherName).Unwrap();
+            cipher = newCipher;
         }
 
         public void Encrypt(List<dynamic> key)
         {
-            CipherText = cipher.Encrypt(plainText, key);
+            CipherText = cipher.Encrypt(PlainText, key);
         }
 
         public void Decrypt(List<dynamic> key)
         {
-            plainText = cipher.Decrypt(CipherText, key);
+            PlainText = cipher.Decrypt(CipherText, key);
         }
 
         public void ReadCipherText()
@@ -71,12 +60,9 @@ namespace Encryption.Text
 
         public void WriteCipherText()
         {
-            if (false == File.Exists(CipherTextFilePath))
+            using (StreamWriter writer = File.CreateText(CipherTextFilePath))
             {
-                using (StreamWriter writer = File.CreateText(CipherTextFilePath))
-                {
-                    writer.Write(CipherText);
-                }
+                writer.Write(CipherText);
             }
         }
 
@@ -84,20 +70,19 @@ namespace Encryption.Text
         {
             using (StreamReader reader = File.OpenText(PlainTextFilePath))
             {
-                CipherText = reader.ReadToEnd().ToArray();
+                PlainText = reader.ReadToEnd().ToArray();
             }
         }
 
         public void WritePlainText()
         {
-            if (false == File.Exists(CipherTextFilePath))
+            using (StreamWriter writer = File.CreateText(PlainTextFilePath))
             {
-                using (StreamWriter writer = File.CreateText(PlainTextFilePath))
-                {
-                    writer.Write(CipherText);
-                }
+                writer.Write(PlainText);
             }
         }
+
+        public void Dispose() { }
     }
     
     //Text class wrapper for just encryption
@@ -106,9 +91,8 @@ namespace Encryption.Text
         private Text textObject;
         
         private bool encrypted;
-        private bool saved;
 
-        public string PlainText
+        public char[] PlainText
         {
             get
             {
@@ -161,11 +145,10 @@ namespace Encryption.Text
             }
         }
 
-        public Encryptor(string assemblyName, string cipherName)
+        public Encryptor(ICipher newCipher)
         {
-            textObject = new Text(assemblyName, cipherName);
+            textObject = new Text(newCipher);
             encrypted = false;
-            saved = false;
         }
 
         public void Encrypt(List<dynamic> key)
@@ -182,33 +165,24 @@ namespace Encryption.Text
             }
         }
 
-        public void SaveCipherText(string path)
+        public void ReadPlainText()
         {
-            if (false == File.Exists(path))
+            textObject.ReadPlainText();
+        }
+
+        public void WriteCipherText()
+        {
+            if (true == encrypted)
             {
-                if (true == encrypted)
-                {
-                    textObject.SaveCipherText(path);
-                    saved = true;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Text hasn't been encrypted");
-                }
+                textObject.WriteCipherText();
             }
             else
             {
-                throw new InvalidOperationException("File already exists at given path");
+                throw new InvalidOperationException("Text hasn't been encrypted");
             }
         }
 
-        public void Dispose()
-        {
-            if (false == saved && true == encrypted)
-            {
-                throw new InvalidOperationException("Encryptor disposed before cipher text was saved");
-            }
-        }
+        public void Dispose() { }
     }
 
     //Text class wrapper for just decryption
@@ -218,7 +192,7 @@ namespace Encryption.Text
 
         private bool decrypted;
 
-        public string PlainText
+        public char[] PlainText
         {
             get
             {
@@ -239,6 +213,11 @@ namespace Encryption.Text
             {
                 return textObject.CipherText;
             }
+            set
+            {
+                textObject.CipherText = value;
+                decrypted = false;
+            }
         }
 
         public List<SubKey> KeyStructure
@@ -249,9 +228,9 @@ namespace Encryption.Text
             }
         }
 
-        public Decryptor(string assemblyName, string cipherName)
+        public Decryptor(ICipher newCipher)
         {
-            textObject = new Text(assemblyName, cipherName);
+            textObject = new Text(newCipher);
             decrypted = false;
         }
 
@@ -268,15 +247,20 @@ namespace Encryption.Text
             }
         }
 
-        public void GetCipherText(string path)
+        public void ReadCipherText()
         {
-            if (true == File.Exists(path))
+            textObject.ReadCipherText();
+        }
+
+        public void WritePlainText()
+        {
+            if (true == decrypted)
             {
-                textObject.GetCipherText(path);
+                textObject.WritePlainText();
             }
             else
             {
-                throw new FileNotFoundException("File doesn't exist");
+                throw new InvalidOperationException("Text hasn't been decrypted");
             }
         }
 

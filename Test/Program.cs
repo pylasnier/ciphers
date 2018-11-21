@@ -20,9 +20,12 @@ namespace Test
 
             var key = new List<object>();
 
-            using (var MyTextObject = new Encryptor("caesarcipher.dll", "Encryption.Ciphers.CCipher"))
+            ICipher myCipher = (ICipher) Activator.CreateComInstanceFrom("caesarcipher.dll", "Ciphers.CCipher").Unwrap();
+
+            using (var MyTextObject = new Encryptor(myCipher))
             {
-                MyTextObject.PlainText = "Hello world!";
+                MyTextObject.PlainTextFilePath = "N:\\My Documents\\IsTestYes.txt";
+                MyTextObject.ReadPlainText();
 
                 for (i = 0; i < MyTextObject.KeyStructure.Count; i++)
                 {
@@ -47,7 +50,8 @@ namespace Test
                 Console.Write("\n\n\n");
                 Console.WriteLine(MyTextObject.CipherText);
 
-                MyTextObject.SaveCipherText("N:\\My Documents\\TestMeDaddy.txt");
+                MyTextObject.CipherTextFilePath = "N:\\My Documents\\TestMeDaddy.txt";
+                MyTextObject.WriteCipherText();
             }
 
             File.Delete("N:\\My Documents\\TestMeDaddy.txt");
