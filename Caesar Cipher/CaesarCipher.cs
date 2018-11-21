@@ -8,6 +8,7 @@ namespace Ciphers
 {
     //Caesar Cipher
     //Shifts character's numeric value by a given number of places
+    [CipherClass("Caesar Cipher")]
     public class CCipher : ICipher
     {
         public List<SubKey> KeyStructure
@@ -42,19 +43,9 @@ namespace Ciphers
             return encrypt(plainText, key[0]);
         }
 
-        public char[] Encrypt(string plainText, List<dynamic> key)
-        {
-            return encrypt(plainText.ToArray(), key[0]);
-        }
-
         public char[] Decrypt(char[] cipherText, List<dynamic> key)
         {
             return encrypt(cipherText, -key[0]);
-        }
-
-        public char[] Decrypt(string cipherText, List<dynamic> key)
-        {
-            return encrypt(cipherText.ToArray(), -key[0]);
         }
     }
 }

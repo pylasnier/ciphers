@@ -8,6 +8,7 @@ using Encryption;
 using Encryption.Text;
 
 using System.IO;
+using System.Reflection;
 
 namespace Test
 {
@@ -17,14 +18,44 @@ namespace Test
         {
             bool valid;
             int i;
+            List<ICipher> ciphers;
+            Assembly assembly;
+            Type[] types;
 
             var key = new List<object>();
+            ciphers = new List<ICipher>();
 
-            ICipher myCipher = (ICipher) Activator.CreateComInstanceFrom("caesarcipher.dll", "Ciphers.CCipher").Unwrap();
+            assembly = Assembly.Load("caesarcipher");
+            types = assembly.GetTypes();
 
-            using (var MyTextObject = new Encryptor(myCipher))
+            foreach (Type type in types)
             {
-                MyTextObject.PlainTextFilePath = "N:\\My Documents\\IsTestYes.txt";
+                foreach (Attribute attribute in Attribute.GetCustomAttributes(type))
+                {
+                    if (attribute is CipherClass)
+                    {
+                        ciphers.Add((ICipher)Activator.CreateInstance(type));
+                    }
+                }
+            }
+
+            assembly = Assembly.Load("transpositioncipher");
+            types = assembly.GetTypes();
+
+            foreach (Type type in types)
+            {
+                foreach (Attribute attribute in Attribute.GetCustomAttributes(type))
+                {
+                    if (attribute is CipherClass)
+                    {
+                        ciphers.Add((ICipher)Activator.CreateInstance(type));
+                    }
+                }
+            }
+
+            using (var MyTextObject = new Encryptor(ciphers[1]))
+            {
+                MyTextObject.PlainTextFilePath = "IsTestYes.txt";
                 MyTextObject.ReadPlainText();
 
                 for (i = 0; i < MyTextObject.KeyStructure.Count; i++)
@@ -50,11 +81,11 @@ namespace Test
                 Console.Write("\n\n\n");
                 Console.WriteLine(MyTextObject.CipherText);
 
-                MyTextObject.CipherTextFilePath = "N:\\My Documents\\TestMeDaddy.txt";
+                MyTextObject.CipherTextFilePath = "TestMeDaddy.txt";
                 MyTextObject.WriteCipherText();
             }
 
-            File.Delete("N:\\My Documents\\TestMeDaddy.txt");
+            File.Delete("TestMeDaddy.txt");
 
             Console.ReadKey();
         }

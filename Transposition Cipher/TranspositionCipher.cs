@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Encryption.Ciphers
+using Encryption;
+
+namespace Ciphers
 {
     //Wrapper for 3-dimensional char array, to access elements by row using an index
     class GridByRows : IDisposable
@@ -88,7 +90,8 @@ namespace Encryption.Ciphers
         public void Dispose() { }
     }
 
-    public class GridShape
+    //Width-height key formatted for the cipher method
+    class GridShape
     {
         public int Width { get; set; }
         public int Height { get; set; }
@@ -107,6 +110,9 @@ namespace Encryption.Ciphers
         }
     }
 
+    //Transposition Cipher
+    //Writes plain text into grid by row, reads it out by column
+    [CipherClass("Transposition Cipher")]
     public class TCipher : ICipher
     {
         public List<SubKey> KeyStructure
@@ -129,6 +135,7 @@ namespace Encryption.Ciphers
 
             gridShape = new GridShape(key[0], key[1]);
 
+            //Array of 2D grids, size as given by gridShape
             grid = new char[(plainText.Length - 1) / gridShape.Area + 1, gridShape.Width, gridShape.Height];
 
             //Filling up the grid by rows, first with the plain text then underscores as fillers
@@ -155,11 +162,6 @@ namespace Encryption.Ciphers
             }
 
             return cipherText;
-        }
-
-        public char[] Encrypt(string plainText, List<dynamic> key)
-        {
-            return Encrypt(plainText.ToArray(), key);
         }
 
         public char[] Decrypt(char[] cipherText, List<dynamic> key)
@@ -199,11 +201,6 @@ namespace Encryption.Ciphers
             }
 
             return plainText;
-        }
-
-        public char[] Decrypt(string cipherText, List<dynamic> key)
-        {
-            return Decrypt(cipherText.ToArray(), key);
         }
     }
 }

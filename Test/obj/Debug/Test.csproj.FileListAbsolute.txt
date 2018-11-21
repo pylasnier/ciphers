@@ -12,9 +12,7 @@ C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\Test.exe.config
 C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\Test.exe
 C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\Test.pdb
 C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\caesarcipher.dll
-C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\encryption.dll
 C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\caesarcipher.pdb
-C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\encryption.pdb
 C:\Users\py\source\repos\Encryption Ciphers\Test\obj\Debug\Test.csprojAssemblyReference.cache
 C:\Users\py\source\repos\Encryption Ciphers\Test\obj\Debug\Test.csproj.CoreCompileInputs.cache
 C:\Users\py\source\repos\Encryption Ciphers\Test\obj\Debug\Test.csproj.CopyComplete
@@ -24,3 +22,5 @@ C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\transpositioncipher.d
 C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\transpositioncipher.pdb
 \\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\transpositioncipher.dll
 \\fs2\2018\2018lasnierp\My Documents\Visual Studio 2017\Projects\Encryption Ciphers\Test\bin\Debug\transpositioncipher.pdb
+C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\encryption.dll
+C:\Users\py\source\repos\Encryption Ciphers\Test\bin\Debug\encryption.pdb

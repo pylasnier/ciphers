@@ -25,8 +25,28 @@ namespace Encryption
         List<SubKey> KeyStructure { get; }
 
         char[] Encrypt(char[] plainText, List<dynamic> key);
-        char[] Encrypt(string plainText, List<dynamic> key);
         char[] Decrypt(char[] cipherText, List<dynamic> key);
-        char[] Decrypt(string cipherText, List<dynamic> key);
+    }
+
+    //Attribute that should be used to identify ciphers
+    [AttributeUsage(AttributeTargets.Class,
+                    AllowMultiple = false)]
+    public class CipherClass : Attribute
+    {
+        public string Name { get; }
+
+        public Version Version { get; }
+
+        public CipherClass(string newName)
+        {
+            Name = newName;
+            Version = new Version("1.0");
+        }
+
+        public CipherClass(string newName, Version newVersion)
+        {
+            Name = newName;
+            Version = newVersion;
+        }
     }
 }
