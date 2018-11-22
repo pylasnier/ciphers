@@ -37,16 +37,20 @@ namespace Encryption
 
         public Version Version { get; }
 
-        public CipherClass(string newName)
-        {
-            Name = newName;
-            Version = new Version("1.0");
-        }
+        public Version Compatible { get; }
 
-        public CipherClass(string newName, Version newVersion)
+        public CipherClass(string newName, Version newVersion, Version newCompatible)
         {
             Name = newName;
             Version = newVersion;
+            Compatible = newCompatible;
+        }
+
+        public CipherClass(string newName, string newVersion, string newCompatible)
+        {
+            Name = newName;
+            Version = new Version(newVersion);
+            Compatible = new Version(newCompatible);
         }
     }
 }

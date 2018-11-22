@@ -112,7 +112,7 @@ namespace Ciphers
 
     //Transposition Cipher
     //Writes plain text into grid by row, reads it out by column
-    [CipherClass("Transposition Cipher")]
+    [CipherClass("Transposition Cipher", "1.0", "1.0")]
     public class TCipher : ICipher
     {
         public List<SubKey> KeyStructure

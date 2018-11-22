@@ -8,7 +8,7 @@ namespace Ciphers
 {
     //Caesar Cipher
     //Shifts character's numeric value by a given number of places
-    [CipherClass("Caesar Cipher")]
+    [CipherClass("Caesar Cipher", "1.0", "1.0")]
     public class CCipher : ICipher
     {
         public List<SubKey> KeyStructure

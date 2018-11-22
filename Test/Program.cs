@@ -18,12 +18,13 @@ namespace Test
         {
             bool valid;
             int i;
-            List<ICipher> ciphers;
+            List<Type> ciphers;
+            ICipher cipher;
             Assembly assembly;
             Type[] types;
 
             var key = new List<object>();
-            ciphers = new List<ICipher>();
+            ciphers = new List<Type>();
 
             assembly = Assembly.Load("caesarcipher");
             types = assembly.GetTypes();
@@ -34,7 +35,7 @@ namespace Test
                 {
                     if (attribute is CipherClass)
                     {
-                        ciphers.Add((ICipher)Activator.CreateInstance(type));
+                        ciphers.Add(type);
                     }
                 }
             }
@@ -46,14 +47,22 @@ namespace Test
             {
                 foreach (Attribute attribute in Attribute.GetCustomAttributes(type))
                 {
-                    if (attribute is CipherClass)
+                    if (attribute is CipherClass cipherClass)
                     {
-                        ciphers.Add((ICipher)Activator.CreateInstance(type));
+                        Console.WriteLine(cipherClass.Name);
+                        ciphers.Add(type);
                     }
                 }
             }
+            
+            cipher = Activator.CreateInstance(ciphers[0]) as ICipher;
 
-            using (var MyTextObject = new Encryptor(ciphers[1]))
+            if (null == cipher)
+            {
+                throw new InvalidCastException("Cipher isn't of valid type");
+            }
+
+            using (var MyTextObject = new Encryptor(cipher))
             {
                 MyTextObject.PlainTextFilePath = "IsTestYes.txt";
                 MyTextObject.ReadPlainText();
